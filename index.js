@@ -1,5 +1,5 @@
-const Socket from 'wsrecon'
-const axios from 'axios'
+const Socket = require('wsrecon')
+const axios = require('axios')
 
 const DEFAULT_OPTIONS = { reconnect: 1000, ping: 3000 }
 
