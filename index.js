@@ -1,9 +1,9 @@
-import Socket from 'wsrecon'
-import axios from 'axios'
+const Socket from 'wsrecon'
+const axios from 'axios'
 
 const DEFAULT_OPTIONS = { reconnect: 1000, ping: 3000 }
 
-export default function(url, customOptions = {}) {
+module.exports = function(url, customOptions = {}) {
   const events = {}
   const options = Object.assign({}, DEFAULT_OPTIONS, customOptions)
   let socket
