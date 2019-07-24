@@ -5,6 +5,7 @@ const SOCKET_OPTIONS = { reconnect: 1000, ping: 3000 }
 
 module.exports = function(url, customOptions = {}) {
   const events = {}
+  const subs = {}
 
   // Set up websocket
   let ws
@@ -34,8 +35,13 @@ module.exports = function(url, customOptions = {}) {
 
     ws.on('message', async (data, event) => {
       console.log('Received message', data)
-      if (typeof events.message === 'function') {
-        await events.message(data, event)
+      const sub = data.result.sub
+      if (sub) {
+        console.log('SUB DATA')
+        console.log(sub)
+        await subs[sub.path](sub, event)
+      } else if (typeof events.message === 'function') {
+        await events.message(data.result, event)
       }
     })
   }
@@ -110,11 +116,19 @@ module.exports = function(url, customOptions = {}) {
     }
   }
 
-  async function sub(paths) {
-    const params = { sub: paths }
-    const run = await ws.fetch(params)
-    console.log(JSON.stringify(run.result))
-    return run.result
+  function sub(paths) {
+    return async function(options = {}) {
+      if (options.message) {
+        for (const path of paths) {
+          subs[path] = options.message
+        }
+      }
+      const params = { subs: paths }
+      const run = await ws.fetch(params)
+      console.log(JSON.stringify(run.result))
+      return run.result
+    }
   }
+
   return { ajax, socket, upload, sub }
 }

@@ -28,9 +28,14 @@
 		console.log({ result })
 
 		// Subscription
-		// console.log('SUBSCRIPTION')
-		// result = await sub(['uploads/insert'])
-		// console.log({ result })
+		console.log('SUBSCRIPTION')
+		result = await sub(['uploads/insert'])({
+			message: async function(data, event) {
+				console.log('SUBSCRIPTION MESSAGE RECEIVED')
+				console.log({ data })
+			}
+		})
+		console.log({ result })
 	}
 
 	run()
