@@ -2,38 +2,44 @@ const Socket = require('wsrecon')
 const axios = require('axios')
 
 const SOCKET_OPTIONS = { reconnect: 1000, ping: 3000 }
+const DEFAULT_CONFIG = { host: 'localhost:4000', ssl: false, ws: true }
 
-module.exports = function(url, customOptions = {}) {
+module.exports = function(host, customConfig = {}) {
   const events = {}
   const subs = {}
+  const config = Object.assign({}, customConfig, DEFAULT_CONFIG)
+
+  // Find the URL for ws or http
+  function url(type) {
+    return `${type}${config.ssl ? 's' : ''}://${config.host}`
+  }
 
   // Set up websocket
-  let ws
-  if (/^wss?:\/\//.test(url)) {
-    const options = Object.assign({}, SOCKET_OPTIONS, customOptions)
-    ws = new Socket(url, options)
-    ws.on('open', async (event) => {
+  let socket
+  if (config.ws) {
+    socket = new Socket(url('ws'), SOCKET_OPTIONS)
+    socket.on('open', async (event) => {
       console.log('Connection open')
       if (typeof events.open === 'function') {
         await events.open(event)
       }
     })
 
-    ws.on('close', async (event) => {
+    socket.on('close', async (event) => {
       console.log('Connection closed')
       if (typeof events.close === 'function') {
         await events.close(event)
       }
     })
 
-    ws.on('error', async (event) => {
+    socket.on('error', async (event) => {
       console.log('Connection error')
       if (typeof events.error === 'function') {
         await events.error(event)
       }
     })
 
-    ws.on('message', async (data, event) => {
+    socket.on('message', async (data, event) => {
       console.log('Received message', data)
       const sub = data.result.sub
       if (sub) {
@@ -46,23 +52,23 @@ module.exports = function(url, customOptions = {}) {
     })
   }
 
-  function ajax(path) {
+  function http(path) {
     return async function (...data) {
       console.log({ data })
       const params = { db: { path, data } }
       const config = {}
-      const run = (await axios.post(url, params, config)).data
+      const run = (await axios.post(url('http'), params, config)).data
       console.log({ run })
       console.log(JSON.stringify(run.result))
       return run.result
     }
   }
 
-  function socket(path) {
+  function ws(path) {
     return async function (...data) {
       console.log({ data })
       const params = { db: { path, data } }
-      const run = await ws.fetch(params)
+      const run = await socket.fetch(params)
       console.log(JSON.stringify(run.result))
       return run.result
     }
@@ -105,7 +111,7 @@ module.exports = function(url, customOptions = {}) {
               options.progress(event)
             }
           }
-          const run = (await axios.post(url, params, config)).data
+          const run = (await axios.post(url('http'), params, config)).data
           console.log({ run })
           console.log(JSON.stringify(run.result))
           resolve(run.result)
@@ -124,11 +130,11 @@ module.exports = function(url, customOptions = {}) {
         }
       }
       const params = { subs: paths }
-      const run = await ws.fetch(params)
+      const run = await socket.fetch(params)
       console.log(JSON.stringify(run.result))
       return run.result
     }
   }
 
-  return { ajax, socket, upload, sub }
+  return { http, ws, upload, sub }
 }

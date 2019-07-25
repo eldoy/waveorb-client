@@ -1,8 +1,7 @@
 <script>
 	import client from '../../index.js'
 
-	const { ajax, upload } = client('http://localhost:4000')
-	const { socket, sub } = client('ws://localhost:4000')
+	const { http, ws, upload, sub } = client()
 
 	async function handleUpload() {
 		// Upload
@@ -18,25 +17,25 @@
 
 	async function handleActions() {
 		console.log('Running actions')
-		let result = await ajax('tasks/insert')({ name: 'test' })
+		let result = await http('tasks/insert')({ name: 'test' })
 		console.log({ result })
-		result = await ajax('tasks/update')({ _id: result._id }, { name: 'test2' })
+		result = await http('tasks/update')({ _id: result._id }, { name: 'test2' })
 		console.log({ result })
-		result = await ajax('tasks/update')({ name: 'test2' }, { name: 'test3' })
+		result = await http('tasks/update')({ name: 'test2' }, { name: 'test3' })
 		console.log({ result })
-		result = await ajax('tasks/get')({ name: 'test3' })
+		result = await http('tasks/get')({ name: 'test3' })
 		console.log({ result })
 	}
 
 	async function run() {
-		// AJAX
-		console.log('AJAX')
-		let result = await ajax('projects/find')()
+		// http
+		console.log('http')
+		let result = await http('projects/find')()
 		console.log({ result })
 
 		// Websockets
 		console.log('WEBSOCKET')
-		result = await socket('projects/find')()
+		result = await ws('projects/find')()
 		console.log({ result })
 
 		// Subscription
@@ -45,7 +44,7 @@
 			message: async function(data, event) {
 				console.log('SUBSCRIPTION MESSAGE RECEIVED')
 				console.log({ data })
-				const result = await ajax('uploads/get')({ _id: data[0] })
+				const result = await http('uploads/get')({ _id: data[0] })
 				console.log(result)
 			}
 		})
