@@ -73,7 +73,7 @@ module.exports = function(host, customConfig = {}) {
       return run.result
     }
   }
-  socket.on = function(event, fn) {
+  ws.on = function(event, fn) {
     console.log('REGISTERING EVENT:', event)
     events[event] = fn
   }
