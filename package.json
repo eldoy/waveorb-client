@@ -1,6 +1,6 @@
 {
   "name": "waveorb-client",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Waveorb client",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,6 @@
   "license": "UNLICENSED",
   "dependencies": {
     "axios": "^0.19.0",
-    "wsrecon": "^0.3.1"
+    "wsrecon": "^0.4.0"
   }
 }

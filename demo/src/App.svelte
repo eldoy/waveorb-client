@@ -13,6 +13,8 @@
 			}
 		})
 		console.log({ result })
+		const ul = await http('uploads/get')({ _id: result._id })
+		console.log({ ul })
 	}
 
 	async function handleActions() {
@@ -28,7 +30,7 @@
 	}
 
 	async function run() {
-		// http
+		// HTTP
 		console.log('http')
 		let result = await http('projects/find')()
 		console.log({ result })

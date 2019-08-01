@@ -7,7 +7,7 @@ const DEFAULT_CONFIG = { host: 'localhost:4000', ssl: false, ws: true }
 module.exports = function(host, customConfig = {}) {
   const events = {}
   const subs = {}
-  const config = Object.assign({}, customConfig, DEFAULT_CONFIG)
+  const config = Object.assign({}, DEFAULT_CONFIG, customConfig)
 
   // Find the URL for ws or http
   function url(type) {
