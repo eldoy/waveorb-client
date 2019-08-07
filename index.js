@@ -4,7 +4,7 @@ const axios = require('axios')
 const SOCKET_OPTIONS = { reconnect: 1000, ping: 3000 }
 const DEFAULT_CONFIG = { host: 'localhost:4000', ssl: false, ws: true }
 
-module.exports = function(host, customConfig = {}) {
+module.exports = function(customConfig = {}) {
   const events = {}
   const subs = {}
   const config = Object.assign({}, DEFAULT_CONFIG, customConfig)
@@ -136,5 +136,5 @@ module.exports = function(host, customConfig = {}) {
     }
   }
 
-  return { http, ws, upload, sub }
+  return { http, ws, upload, sub, config }
 }
