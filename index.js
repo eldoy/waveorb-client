@@ -14,6 +14,19 @@ module.exports = function(customConfig = {}) {
     return `${type}${config.ssl ? 's' : ''}://${config.host}`
   }
 
+  // Add session token to params if it exists
+  function tokenize(params) {
+    const { token } = config
+    if (token) {
+      if (params.constructor === FormData) {
+        params.append({ token })
+      } else {
+        params.token = token
+      }
+    }
+    return params
+  }
+
   // Set up websocket
   let socket
   if (config.ws) {
@@ -55,7 +68,7 @@ module.exports = function(customConfig = {}) {
   function http(path) {
     return async function (...data) {
       console.log({ data })
-      const params = { db: { path, data } }
+      const params = tokenize({ db: { path, data } })
       const config = {}
       const run = (await axios.post(url('http'), params, config)).data
       console.log({ run })
@@ -67,7 +80,7 @@ module.exports = function(customConfig = {}) {
   function ws(path) {
     return async function (...data) {
       console.log({ data })
-      const params = { db: { path, data } }
+      const params = tokenize({ db: { path, data } })
       const run = await socket.fetch(params)
       console.log(JSON.stringify(run.result))
       return run.result
@@ -93,7 +106,7 @@ module.exports = function(customConfig = {}) {
         async function change() {
           console.log('CHANGE')
           const files = input.files
-          const params = new FormData()
+          const params = tokenize(new FormData())
           params.append('path', path)
           params.append('options', options)
           for (const file of files) {

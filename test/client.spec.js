@@ -23,4 +23,19 @@ describe('client', () => {
     expect(config.ssl).toBe(true)
     expect(config.ws).toBe(true)
   })
+
+  it('should let config be customizable', () => {
+    const { config } = api()
+    expect(config.host).toBe('localhost:4000')
+    expect(config.ssl).toBe(false)
+    expect(config.ws).toBe(true)
+    config.host = 'localhost:5000'
+    config.ssl = true
+    config.ws = true
+    config.token = 'token'
+    expect(config.host).toBe('localhost:5000')
+    expect(config.ssl).toBe(true)
+    expect(config.ws).toBe(true)
+    expect(config.token).toBe('token')
+  })
 })

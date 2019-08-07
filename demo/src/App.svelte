@@ -1,7 +1,7 @@
 <script>
 	import client from '../../index.js'
 
-	const { http, ws, upload, sub } = client()
+	const { http, ws, upload, sub, config } = client()
 
 	async function handleUpload() {
 		// Upload
@@ -23,10 +23,15 @@
 		console.log({ result })
 		result = await http('tasks/update')({ _id: result._id }, { name: 'test2' })
 		console.log({ result })
-		result = await http('tasks/update')({ name: 'test2' }, { name: 'test3' })
+		result = await ws('tasks/update')({ name: 'test2' }, { name: 'test3' })
 		console.log({ result })
 		result = await http('tasks/get')({ name: 'test3' })
 		console.log({ result })
+	}
+
+	async function handleLogin() {
+		console.log('Logging in')
+		config.token = 'hello'
 	}
 
 	async function run() {
@@ -65,3 +70,4 @@
 <h1>Waveorb client demo!</h1>
 <button on:click="{handleUpload}">Upload</button>
 <button on:click="{handleActions}">Actions</button>
+<button on:click="{handleLogin}">Login</button>
