@@ -1,7 +1,11 @@
 const api = require('../index.js')
 
 describe('client', () => {
-  it('should should export variables', () => {
+  afterAll(async () => {
+    await new Promise(r => setTimeout(() => r(), 500))
+  })
+
+  it('should export variables', () => {
     const { http, ws, upload, sub, config } = api()
     expect(http).toBeDefined()
     expect(ws).toBeDefined()

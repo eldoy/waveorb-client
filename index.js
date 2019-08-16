@@ -1,6 +1,7 @@
 const Socket = require('wsrecon')
 const axios = require('axios')
-
+const isBrowser = typeof window !== 'undefined'
+console.log({ isBrowser })
 const SOCKET_OPTIONS = { reconnect: 1000, ping: 3000 }
 const DEFAULT_CONFIG = { host: 'localhost:4000', ssl: false, ws: true }
 
@@ -65,35 +66,52 @@ module.exports = function(customConfig = {}) {
     })
   }
 
-  function http(path) {
-    return async function (...data) {
-      console.log({ data })
-      const params = tokenize({ db: { path, data } })
-      const config = {}
-      const run = (await axios.post(url('http'), params, config)).data
-      console.log({ run })
-      console.log(JSON.stringify(run.result))
-      return run.result
-    }
-  }
-
   function ws(path) {
     return async function (...data) {
-      console.log({ data })
       const params = tokenize({ db: { path, data } })
       const run = await socket.fetch(params)
       console.log(JSON.stringify(run.result))
       return run.result
     }
   }
+
   ws.on = function(event, fn) {
     console.log('REGISTERING EVENT:', event)
     events[event] = fn
   }
 
+  async function send(params, config = {}) {
+    const post = (await axios.post(url('http'), params, config)).data
+    console.log(JSON.stringify(post.result))
+    return post.result
+  }
+
+  function http(path) {
+    return async function (...data) {
+      const params = tokenize({ db: { path, data } })
+      return await send(params)
+    }
+  }
+
+  function formdata(path, options, files) {
+    const params = tokenize(new FormData())
+    params.append('path', path)
+    params.append('options', options)
+    for (const file of files) {
+      params.append('file', file, file.name)
+    }
+    return params
+  }
+
   function upload(path) {
     return function(options = {}) {
       return new Promise(function(resolve) {
+        const config = {
+          headers: Object.assign(
+            { 'content-type': 'multipart/form-data', 'cache-control': 'no-cache' },
+            options.headers || {}
+          )
+        }
         const input = document.createElement('input')
         input.type = 'file'
         input.value = null
@@ -106,28 +124,15 @@ module.exports = function(customConfig = {}) {
         async function change() {
           console.log('CHANGE')
           const files = input.files
-          const params = tokenize(new FormData())
-          params.append('path', path)
-          params.append('options', options)
-          for (const file of files) {
-            params.append('file', file, file.name)
-          }
-          const config = {
-            headers: Object.assign(
-              { 'content-type': 'multipart/form-data', 'cache-control': 'no-cache' },
-              options.headers || {}
-            )
-          }
+          const params = formdata(path, options, files)
+
           if (options.progress) {
             config.onUploadProgress = function(event) {
               event.percent = Math.round((event.loaded * 100) / event.total)
               options.progress(event)
             }
           }
-          const run = (await axios.post(url('http'), params, config)).data
-          console.log({ run })
-          console.log(JSON.stringify(run.result))
-          resolve(run.result)
+          resolve(await send(params, config))
         }
         input.addEventListener('change', change)
         input.click()
