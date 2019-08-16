@@ -114,7 +114,8 @@ module.exports = function(customConfig = {}) {
         }
         const input = document.createElement('input')
         input.type = 'file'
-        input.value = null
+        input.value = ''
+
         if (options.multiple) {
           input.multiple = true
         }
