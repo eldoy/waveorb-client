@@ -3,6 +3,13 @@ const axios = require('axios')
 const SOCKET_OPTIONS = { reconnect: 1000, ping: 3000 }
 const DEFAULT_CONFIG = { host: 'localhost:4000', ssl: false, ws: true }
 
+let FormData
+if (typeof window === 'undefined') {
+  FormData = require('form-data')
+} else {
+  FormData = window.FormData
+}
+
 module.exports = function(customConfig = {}) {
   const events = {}
   const subs = {}
