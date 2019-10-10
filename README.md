@@ -10,12 +10,12 @@ npm i waveorb-client
 ```javascript
 // Directly in webpack app
 import client from 'waveorb-client'
-const api = client({ host: 'http://localhost:4000' })
+const api = client('http://localhost:4000')
 
 // As Nuxt plugin, in ~/plugins/db.js
 import client from 'waveorb-client'
 export default ({}, inject) => {
-  inject('api', client({ host: 'http://localhost:4000' }))
+  inject('api', client('http://localhost:4000'))
 }
 
 // In nuxt.config.js
@@ -60,9 +60,7 @@ api.upload({ path: 'createProject' })
 ```
 
 ### How it works
-The path and data matches the route name and data.
-
-If your server route looks like this:
+The path and data matches the route name and data. If your server route looks like this:
 ```javascript
 {
   createProject: {

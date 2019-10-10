@@ -1,6 +1,6 @@
 {
   "name": "waveorb-client",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "description": "Waveorb client",
   "main": "main.js",
   "scripts": {
