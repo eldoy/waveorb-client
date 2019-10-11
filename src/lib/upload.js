@@ -1,4 +1,4 @@
-const FormData = require('./formdata.js')
+const FormData = require('form-data')
 
 module.exports = function (_params, options, config, result) {
   const params = new FormData()

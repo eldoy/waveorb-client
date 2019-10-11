@@ -2,7 +2,7 @@
   "name": "waveorb-client",
   "version": "0.1.1",
   "description": "Waveorb client",
-  "main": "main.js",
+  "main": "dist/main.js",
   "scripts": {
     "test": "jest --watch"
   },
