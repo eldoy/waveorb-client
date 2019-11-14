@@ -7,7 +7,7 @@ npm i waveorb-client
 ```
 
 ### Usage
-In a vanilla HTML app, include the content of `dist/bundle.js` on your page. The client will be available in the `waveorb` variable.
+In a vanilla HTML app, include the content of `dist/bundle.js` in the layout of your page. The client will be available in the `waveorb` variable.
 ```javascript
 // Include in webpack app
 import client from 'waveorb-client'
