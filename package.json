@@ -4,7 +4,8 @@
   "description": "Waveorb client",
   "main": "main.js",
   "scripts": {
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "build": "rollup -c"
   },
   "author": "Vidar Eldøy",
   "license": "UNLICENSED",
@@ -17,6 +18,12 @@
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.6.2",
     "@babel/preset-env": "^7.7.1",
-    "jest": "^24.9.0"
+    "jest": "^24.9.0",
+    "rollup": "^1.27.0",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-uglify-es": "0.0.1"
   }
 }
