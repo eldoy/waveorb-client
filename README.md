@@ -60,28 +60,31 @@ api.upload({ path: 'createProject' })
 ```
 
 ### How it works
-The path and data matches the route name and data. If your server route looks like this:
+The path and data matches the route. If your server route looks like this:
 ```javascript
 {
   createProject: {
-    data: {
-      values: {
+    // The data params will be validated like this
+    validate: {
+      data: {
         name: {
           is: '$string'
         }
       }
+    },
+    main: async function($) {
+      // The data is available in params:
+      $.params.data
     }
   }
 }
 ```
-The client will match the route like this:
+then the client will match the route like this:
 ```javascript
 {
   path: 'createProject',
   data: {
-    values: {
-      name: 'Hello'
-    }
+    name: 'Hello'
   }
 }
 ```
