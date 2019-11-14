@@ -7,12 +7,13 @@ npm i waveorb-client
 ```
 
 ### Usage
+In a vanilla HTML app, include the content of `dist/bundle.js` on your page. The client will be available in the `waveorb` variable.
 ```javascript
-// Directly in webpack app
+// Include in webpack app
 import client from 'waveorb-client'
 const api = client('http://localhost:4000')
 
-// As Nuxt plugin, in ~/plugins/db.js
+// As Nuxt plugin, in ~/plugins/waveorb.js
 import client from 'waveorb-client'
 export default ({}, inject) => {
   inject('api', client('http://localhost:4000'))
@@ -20,7 +21,7 @@ export default ({}, inject) => {
 
 // In nuxt.config.js
 plugins: [
-  '~/plugins/db.js'
+  '~/plugins/waveorb.js'
 ]
 
 // Set up websocket connection
