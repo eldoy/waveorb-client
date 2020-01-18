@@ -1,6 +1,6 @@
 // Usage:
-// const api = client('https://localhost:4000', {})
-// const socket = client('wss://localhost:4000', { reconnect: true, ping: 3000 })
+// const api = client('https://localhost:5000', {})
+// const socket = client('wss://localhost:5000', { reconnect: true, ping: 3000 })
 
 // Send through socket
 // socket.fetch({

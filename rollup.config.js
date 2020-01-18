@@ -21,9 +21,9 @@ const babelOptions = {
 }
 
 module.exports = {
-  input: 'main.js',
+  input: 'index.js',
   plugins: [
-    resolve({ mainFields: ['main'], preferBuiltins: true, browser: true }),
+    resolve({ mainFields: ['index'], preferBuiltins: true, browser: true }),
     json(),
     commonjs(),
     babel(babelOptions),

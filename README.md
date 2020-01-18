@@ -1,5 +1,5 @@
 # Waveorb client
-NOTE: You need a waveorb server to use this client.
+This is the client for the [Waveorb application development framework.](https://waveorb.com)
 
 ### Install
 ```
@@ -11,12 +11,12 @@ In a vanilla HTML app, include the content of `dist/bundle.js` in the layout of 
 ```javascript
 // Include in webpack app
 import client from 'waveorb-client'
-const api = client('http://localhost:4000')
+const api = client('http://localhost:5000')
 
 // As Nuxt plugin, in ~/plugins/waveorb.js
 import client from 'waveorb-client'
 export default ({}, inject) => {
-  inject('api', client('http://localhost:4000'))
+  inject('api', client('http://localhost:5000'))
 }
 
 // In nuxt.config.js
@@ -25,10 +25,10 @@ plugins: [
 ]
 
 // Set up websocket connection
-const socket = client('ws://localhost:4000', { reconnect: true, ping: 3000 })
+const socket = client('ws://localhost:5000', { reconnect: true, ping: 3000 })
 
 // Websocket with SSL
-const socket = client('wss://localhost:4000')
+const socket = client('wss://localhost:5000')
 
 // Send through websocket
 socket.fetch({
@@ -41,10 +41,10 @@ socket.fetch({
 })
 
 // Set up HTTP connection
-const api = client('ws://localhost:4000', {})
+const api = client('ws://localhost:5000', {})
 
 // HTTP with SSL
-const api = client('wss://localhost:4000')
+const api = client('wss://localhost:5000')
 
 // Send through http
 api.fetch({

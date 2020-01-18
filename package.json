@@ -1,25 +1,29 @@
 {
   "name": "waveorb-client",
-  "version": "0.1.5",
-  "description": "Waveorb client",
-  "main": "main.js",
+  "version": "0.2.0",
+  "description": "Waveorb client for the Waveorb application development framework",
+  "main": "index.js",
   "scripts": {
     "test": "jest --watch",
     "build": "rollup -c"
   },
-  "author": "Vidar Eldøy",
-  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eldoy/waveorb-client"
+  },
+  "author": "Vidar Eldøy <vidar@eldoy.com>",
+  "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.7.7",
-    "axios": "^0.19.0",
+    "@babel/runtime": "^7.8.3",
+    "axios": "^0.19.1",
     "form-data": "^3.0.0",
     "wsrecon": "^0.4.0"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.7.6",
-    "@babel/preset-env": "^7.7.7",
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
     "jest": "^24.9.0",
-    "rollup": "^1.28.0",
+    "rollup": "^1.29.0",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
