@@ -25,7 +25,7 @@ describe('node', () => {
   it('should upload a file', async () => {
     const api = waveorb('http://localhost:5000')
     const files = ['test/assets/hello.txt']
-    const result = await api.upload({ action: 'upload' }, files)
+    const result = await api.upload({ action: 'upload' }, { files })
     expect(result.names[0]).toBe('hello.txt')
   })
 })
