@@ -1,6 +1,6 @@
-const _ = require('lodash')
 const http = require('taarn')
 const socket = require('wsrecon')
+const upload = require('uload')
 
 module.exports = function(url, options = {}) {
   if (url.indexOf('ws') === 0) {
@@ -10,9 +10,12 @@ module.exports = function(url, options = {}) {
       fetch: function(params) {
         return http(url, { params })
       },
-      upload: function(params, ...files) {
-        files = _.flatten(files)
-        return http(url, { params, files })
+      upload: function(params, options = {}, config = {}) {
+        return new Promise(function(resolve) {
+          upload(params, options, config, async function(params) {
+            resolve(await fetch(params, config))
+          })
+        })
       }
     }
   }

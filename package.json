@@ -1,11 +1,14 @@
 {
   "name": "waveorb-client",
-  "version": "0.2.0",
-  "description": "Waveorb client for the Waveorb application development framework",
+  "version": "0.3.0",
+  "description": "Waveorb client for the Waveorb web app development framework",
   "main": "index.js",
+  "browser": "browser.js",
   "scripts": {
-    "test": "jest --watch",
-    "build": "rollup -c"
+    "start": "nodemon -x waveorb serve",
+    "test": "jest --watch --runInBand --detectOpenHandles",
+    "minify": "node scripts/minify.js",
+    "build": "node scripts/build.js"
   },
   "repository": {
     "type": "git",
@@ -14,20 +17,13 @@
   "author": "Vidar Eldøy <vidar@eldoy.com>",
   "license": "MIT",
   "dependencies": {
-    "@babel/runtime": "^7.8.3",
-    "axios": "^0.19.1",
     "form-data": "^3.0.0",
-    "wsrecon": "^0.4.0"
+    "taarn": "0.2.1",
+    "uload": "^0.1.0",
+    "wsrecon": "^0.5.2"
   },
   "devDependencies": {
-    "@babel/plugin-transform-runtime": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
-    "jest": "^24.9.0",
-    "rollup": "^1.29.0",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-uglify-es": "0.0.1"
+    "jest": "^25.1.0",
+    "uglify-es": "^3.3.9"
   }
 }
