@@ -20,8 +20,10 @@ module.exports = function(url, config) {
         if (options.accept) {
           input.accept = options.accept
         }
-        input.onchange = async function() {
-          resolve(await fetch(params, { files: input.files }))
+        input.onchange = function() {
+          fetch(params, { files: input.files }).then(function(result) {
+            resolve(result)
+          })
         }
         input.click()
       })

@@ -1,6 +1,6 @@
 {
   "name": "waveorb-client",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Waveorb client for the Waveorb web app development framework",
   "main": "index.js",
   "browser": "browser.js",
@@ -18,8 +18,8 @@
   "license": "MIT",
   "dependencies": {
     "form-data": "^3.0.0",
-    "taarn": "0.3.1",
-    "wsrecon": "^0.5.3"
+    "taarn": "0.3.2",
+    "wsrecon": "^0.6.0"
   },
   "devDependencies": {
     "jest": "^25.1.0",
