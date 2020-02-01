@@ -163,6 +163,7 @@
       socket(url, config || {}).then(function(s) {
         resolve({
           action: function action(name, params) {
+            if (!params) params = {}
             params.action = name
             return s.fetch(params)
           }
@@ -171,11 +172,13 @@
     })
   } else {
     function action(name, params, options) {
+      if (!params) params = {}
       params.action = name
       return http(url, params, options)
     }
 
     function upload(name, params, options) {
+      if (!params) params = {}
       if (!options) options = {}
       return new Promise(function(resolve) {
         var input = document.createElement('input')
@@ -187,7 +190,6 @@
           input.accept = options.accept
         }
         input.onchange = function() {
-          console.log('CHANGE')
           action(name, params, { files: input.files }).then(function(result) {
             resolve(result)
           })
