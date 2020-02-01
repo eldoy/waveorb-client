@@ -7,7 +7,7 @@ const waveorb = require('../index.js')
 describe('node', () => {
 
   beforeEach(async () => {
-    await new Promise(r => setTimeout(r, 500))
+    await new Promise(r => setTimeout(r, 200))
   })
 
   it('should post some data over http', async () => {

@@ -1,11 +1,11 @@
 {
   "name": "waveorb-client",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Waveorb client for the Waveorb web app development framework",
   "main": "index.js",
   "browser": "browser.js",
   "scripts": {
-    "start": "nodemon -x waveorb serve",
+    "start": "nodemon -e js,json,yml -i dist -x waveorb serve",
     "test": "jest --watch --runInBand --detectOpenHandles",
     "minify": "node scripts/minify.js",
     "build": "node scripts/build.js"
@@ -18,7 +18,7 @@
   "license": "MIT",
   "dependencies": {
     "form-data": "^3.0.0",
-    "taarn": "0.3.2",
+    "taarn": "0.3.3",
     "wsrecon": "^0.6.0"
   },
   "devDependencies": {
