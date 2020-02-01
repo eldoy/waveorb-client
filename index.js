@@ -2,16 +2,23 @@ const _ = require('lodash')
 const http = require('taarn')
 const socket = require('wsrecon')
 
-module.exports = function(url, config = {}) {
-  if (url.indexOf('ws') === 0) {
-    return socket(url, config)
+module.exports = function(url, config) {
+  if (url.indexOf('ws') == 0) {
+    return new Promise(function(resolve) {
+      socket(url, config || {}).then(function(s) {
+        resolve({
+          action: function action(name, params) {
+            params.action = name
+            return s.fetch(params)
+          }
+        })
+      })
+    })
   } else {
-    function fetch(params, options) {
+    function run(name, params, options) {
+      params.action = name
       return http(url, params, options)
     }
-    function upload(params, options) {
-      return http(url, params, options)
-    }
-    return { fetch, upload }
+    return { action: run, upload: run }
   }
 }
