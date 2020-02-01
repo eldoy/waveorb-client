@@ -12,11 +12,23 @@ describe('browser', () => {
 
   it('should post some data over http', async () => {
     const api = waveorb('http://localhost:5000')
+    const result = await api.action('hello')
+    expect(result.status).toBe('OK')
+  })
+
+  it('should post some data over http with params', async () => {
+    const api = waveorb('http://localhost:5000')
     const result = await api.action('hello', { data: { hello: 'waveorb' } })
     expect(result.hello).toBe('waveorb')
   })
 
   it('should work with websockets', async () => {
+    const api = await waveorb('ws://localhost:5000')
+    const result = await api.action('hello')
+    expect(result.status).toBe('OK')
+  })
+
+  it('should work with websockets with params', async () => {
     const api = await waveorb('ws://localhost:5000')
     const result = await api.action('hello', { data: { hello: 'waveorb' } })
     expect(result.hello).toBe('waveorb')

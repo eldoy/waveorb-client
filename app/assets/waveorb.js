@@ -20,7 +20,24 @@
   if (typeof options.disconnect === 'undefined') options.disconnect = 3000
 
   // Variables
-  var socket, callbacks, cid, interval, timeout
+  var socket, callbacks, cid, interval, timeout, events = {}
+
+  // Events
+  var EVENTS = ['message', 'open', 'close', 'error']
+  for (var i = 0; i < EVENTS.length; i++) {
+    events[EVENTS[i]] = []
+  }
+
+  // Register events
+  function on(name, fn) {
+    events[name].push(fn)
+  }
+
+  function run(name, ...args) {
+    for (var i = 0; i < events[name].length; i++) {
+      events[name][i](...args)
+    }
+  }
 
   function connect(resolve, reject) {
     callbacks = {}
@@ -36,33 +53,27 @@
           callbacks[id](data, event)
           delete callbacks[id]
         }
-      } else if (options.onmessage) {
-        options.onmessage(data, event)
+      } else {
+        run('message', data, event)
       }
     }
 
     socket.onopen = function(event) {
       if (resolve) resolve(api)
+      run('open', api, event)
       ping()
-      if (options.onopen) {
-        options.onopen(api, event)
-      }
     }
 
     socket.onerror = function(event) {
       if (reject) reject(event)
-      if (options.onerror) {
-        options.onerror(event)
-      }
+      run('error', event)
     }
 
     socket.onclose = function(event) {
       if (options.reconnect) {
         setTimeout(connect, options.reconnect)
       }
-      if (options.onclose) {
-        options.onclose(event)
-      }
+      run('close', event)
     }
   }
 
@@ -85,9 +96,9 @@
     }
   }
 
-  function send(obj) {
+  function send(params) {
     if (socket.readyState === OPEN) {
-      socket.send(JSON.stringify(obj))
+      socket.send(JSON.stringify(params))
     }
   }
 
@@ -99,7 +110,7 @@
     })
   }
 
-  var api = { connect, send, fetch, disconnect }
+  var api = { on, connect, send, fetch, disconnect }
 
   return new Promise(connect)
 };
@@ -116,7 +127,6 @@
       reject(xhr)
     })
     xhr.open(options.method || 'POST', url + (options.path || '/'))
-
     // Set up upload if we have files
     var data
     if (options.files) {
@@ -140,38 +150,52 @@
       }
     } else {
       xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8')
-    }
 
+    }
     // Send data to server
+    xhr.withCredentials = true
     xhr.send(data || JSON.stringify(params))
   })
 };
   window.waveorb = function(url, config) {
-  if (url.indexOf('ws') === 0) {
-    return socket(url, config || {})
+  if (url.indexOf('ws') == 0) {
+    return new Promise(function(resolve) {
+      socket(url, config || {}).then(function(s) {
+        resolve({
+          action: function action(name, params) {
+            params.action = name
+            return s.fetch(params)
+          }
+        })
+      })
+    })
   } else {
-    function fetch(params, options) {
+    function action(name, params, options) {
+      params.action = name
       return http(url, params, options)
     }
-    function upload(params, options) {
+
+    function upload(name, params, options) {
       if (!options) options = {}
       return new Promise(function(resolve) {
         var input = document.createElement('input')
         input.type = 'file'
-        input.value = null
         if (options.multiple) {
           input.multiple = true
         }
         if (options.accept) {
           input.accept = options.accept
         }
-        input.onchange = async function() {
-          resolve(await fetch(params, { files: input.files }))
+        input.onchange = function() {
+          console.log('CHANGE')
+          action(name, params, { files: input.files }).then(function(result) {
+            resolve(result)
+          })
         }
         input.click()
       })
     }
-    return { fetch, upload }
+    return { action, upload }
   }
 }
 }())

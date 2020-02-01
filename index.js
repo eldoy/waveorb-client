@@ -7,7 +7,7 @@ module.exports = function(url, config) {
     return new Promise(function(resolve) {
       socket(url, config || {}).then(function(s) {
         resolve({
-          action: function action(name, params) {
+          action: function action(name, params = {}) {
             params.action = name
             return s.fetch(params)
           }
@@ -15,7 +15,7 @@ module.exports = function(url, config) {
       })
     })
   } else {
-    function run(name, params, options) {
+    function run(name, params = {}, options = {}) {
       params.action = name
       return http(url, params, options)
     }

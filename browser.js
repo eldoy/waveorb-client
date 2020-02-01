@@ -7,6 +7,7 @@ module.exports = function(url, config) {
       socket(url, config || {}).then(function(s) {
         resolve({
           action: function action(name, params) {
+            if (!params) params = {}
             params.action = name
             return s.fetch(params)
           }
@@ -15,11 +16,13 @@ module.exports = function(url, config) {
     })
   } else {
     function action(name, params, options) {
+      if (!params) params = {}
       params.action = name
       return http(url, params, options)
     }
 
     function upload(name, params, options) {
+      if (!params) params = {}
       if (!options) options = {}
       return new Promise(function(resolve) {
         var input = document.createElement('input')

@@ -13,9 +13,9 @@ module.exports = async function($) {
           var api = waveorb('http://localhost:5000')
           // Test upload
           async function doUpload() {
-            var result = await api.upload({ action: 'upload' })
+            var result = await api.upload('upload')
             console.log(result)
-            result = await api.fetch({ action: 'hello' })
+            result = await api.action('hello')
             console.log(result)
           }
         </script>
