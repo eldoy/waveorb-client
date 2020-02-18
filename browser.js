@@ -34,7 +34,8 @@ module.exports = function(url, config) {
           input.accept = options.accept
         }
         input.onchange = function() {
-          action(name, params, { files: input.files }).then(function(result) {
+          options.files = input.files
+          action(name, params, options).then(function(result) {
             resolve(result)
           })
         }

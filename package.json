@@ -1,13 +1,12 @@
 {
   "name": "waveorb-client",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Client for the Waveorb web app development framework",
   "main": "index.js",
   "browser": "browser.js",
   "scripts": {
     "start": "nodemon -e js,json,yml -i dist -x waveorb serve",
     "test": "jest --watch --runInBand --detectOpenHandles",
-    "minify": "node scripts/minify.js",
     "build": "node scripts/build.js"
   },
   "repository": {
