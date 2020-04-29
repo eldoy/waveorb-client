@@ -126,7 +126,7 @@
     xhr.addEventListener('error', function(){
       reject(xhr)
     })
-    xhr.open(options.method || 'POST', url + (options.path || '/'))
+    xhr.open(options.method || 'POST', url + (options.path || ''))
     // Set up upload if we have files
     var data
     if (options.files) {
