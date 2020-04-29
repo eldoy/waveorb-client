@@ -1,6 +1,6 @@
 {
   "name": "waveorb-client",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Client for the Waveorb web app development framework",
   "main": "index.js",
   "browser": "browser.js",
