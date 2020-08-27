@@ -16,7 +16,7 @@
   "license": "MIT",
   "dependencies": {
     "form-data": "^3.0.0",
-    "taarn": "0.3.5",
+    "taarn": "0.3.6",
     "wsrecon": "^0.6.0"
   },
   "devDependencies": {
