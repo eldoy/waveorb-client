@@ -148,6 +148,11 @@
     } else {
       xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8')
     }
+    if (options.headers) {
+      for (var key in options.headers) {
+        xhr.setRequestHeader(key, options.headers[key])
+      }
+    }
     // Send data to server
     xhr.withCredentials = true
     xhr.send(data || JSON.stringify(params))
