@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "jest": "^26.4.2",
+    "pretty": "^2.0.0",
     "uglify-es": "^3.3.9"
   }
 }
