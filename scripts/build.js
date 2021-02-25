@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const uglify = require('uglify-es')
-const pretty = require('pretty')
+const beautify = require('js-beautify').js
 const fspath = require('path')
 const client = require('../index.js')
 const http = require(fspath.join(process.cwd(), 'node_modules', 'taarn', 'browser.js'))
@@ -9,11 +9,13 @@ const socket = require(fspath.join(process.cwd(), 'node_modules', 'wsrecon', 'in
 
 const name = 'waveorb'
 
-const code = pretty(`(function() {
+let code = `(function() {
   var socket = ${socket};
   var http = ${http};
   window.${name} = ${client}
-}())`)
+}())`
+
+code = beautify(code, { indent_size: 2 })
 
 if (!fs.existsSync('./dist')) {
   fs.mkdirSync('./dist')
