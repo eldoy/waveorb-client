@@ -3,7 +3,7 @@
 */
 
 const waveorb = require('../index.js')
-let api = waveorb('http://localhost:5000')
+let http = waveorb('http://localhost:5000')
 
 describe('node', () => {
 
@@ -12,12 +12,12 @@ describe('node', () => {
   })
 
   it('should post some data over http', async () => {
-    const result = await api({ action: 'project/hello' })
+    const result = await http({ action: 'project/hello' })
     expect(result.status).toBe('OK')
   })
 
   it('should post some data over http with params', async () => {
-    const result = await api({ action: 'project/hello', data: { hello: 'waveorb' } })
+    const result = await http({ action: 'project/hello', data: { hello: 'waveorb' } })
     expect(result.hello).toBe('waveorb')
   })
 
@@ -41,7 +41,7 @@ describe('node', () => {
 
   it('should upload a file', async () => {
     const files = ['test/assets/hello.txt']
-    const result = await api({ action: 'project/upload' }, { files })
+    const result = await http({ action: 'project/upload' }, { files })
     expect(result.names[0]).toBe('hello.txt')
   })
 })
