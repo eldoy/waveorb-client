@@ -21,14 +21,22 @@ describe('node', () => {
     expect(result.hello).toBe('waveorb')
   })
 
-  it('should work with websockets', async () => {
-    const result = await api({ action: 'project/hello' })
-    expect(result.status).toBe('OK')
+  it('should work with websockets', async (done) => {
+    const socket = await waveorb('ws://localhost:5000')
+    socket.on('message', function(data) {
+      expect(data.status).toBe('OK')
+      done()
+    })
+    socket.send({ action: 'project/hello' })
   })
 
-  it('should work with websockets with params', async () => {
-    const result = await api({ action: 'project/hello', data: { hello: 'waveorb' } })
-    expect(result.hello).toBe('waveorb')
+  it('should work with websockets with params', async (done) => {
+    const socket = await waveorb('ws://localhost:5000')
+    socket.on('message', function(data) {
+      expect(data.hello).toBe('waveorb')
+      done()
+    })
+    socket.send({ action: 'project/hello', data: { hello: 'waveorb' } })
   })
 
   it('should upload a file', async () => {
