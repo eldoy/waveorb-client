@@ -16,13 +16,13 @@
   "license": "MIT",
   "dependencies": {
     "form-data": "^4.0.0",
-    "js-beautify": "^1.13.13",
-    "taarn": "0.5.2",
+    "js-beautify": "^1.14.0",
+    "taarn": "0.6.0",
     "wsrecon": "^0.8.1"
   },
   "devDependencies": {
-    "jest": "^26.6.3",
+    "jest": "^27.1.0",
     "uglify-es": "^3.3.9",
-    "waveorb": "^0.14.17"
+    "waveorb": "^0.15.6"
   }
 }
