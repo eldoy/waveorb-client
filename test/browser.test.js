@@ -21,21 +21,23 @@ describe('browser', () => {
     expect(result.hello).toBe('waveorb')
   })
 
-  it('should work with websockets', async (done) => {
-    const socket = await waveorb('ws://localhost:5000')
-    socket.on('message', function(data) {
-      expect(data.status).toBe('OK')
-      done()
+  it('should work with websockets', done => {
+    waveorb('ws://localhost:5000').then(socket => {
+      socket.on('message', function(data) {
+        expect(data.status).toBe('OK')
+        done()
+      })
+      socket.send({ action: 'project/hello' })
     })
-    socket.send({ action: 'project/hello' })
   })
 
-  it('should work with websockets with params', async (done) => {
-    const socket = await waveorb('ws://localhost:5000')
-    socket.on('message', function(data) {
-      expect(data.hello).toBe('waveorb')
-      done()
+  it('should work with websockets with params', done => {
+    waveorb('ws://localhost:5000').then(socket => {
+      socket.on('message', function(data) {
+        expect(data.hello).toBe('waveorb')
+        done()
+      })
+      socket.send({ action: 'project/hello', data: { hello: 'waveorb' } })
     })
-    socket.send({ action: 'project/hello', data: { hello: 'waveorb' } })
   })
 })
