@@ -4,7 +4,7 @@
   "description": "Client for the Waveorb web app development framework",
   "main": "index.js",
   "scripts": {
-    "serve": "cd test && nodemon -e js,json,yml -i dist -x waveorb serve",
+    "serve:test": "cd test && nodemon -e js,json,yml -i dist -x waveorb serve",
     "test": "jest --watch --runInBand",
     "build": "node scripts/build.js"
   },
@@ -16,13 +16,13 @@
   "license": "MIT",
   "dependencies": {
     "form-data": "^4.0.0",
-    "js-beautify": "^1.14.0",
-    "taarn": "0.6.0",
-    "wsrecon": "^0.8.1"
+    "taarn": "0.6.0"
   },
   "devDependencies": {
-    "jest": "^27.1.0",
+    "jest": "^28.0.1",
+    "jest-environment-jsdom": "^28.0.1",
+    "js-beautify": "^1.14.3",
     "uglify-es": "^3.3.9",
-    "waveorb": "^0.15.6"
+    "waveorb": "^0.30.2"
   }
 }

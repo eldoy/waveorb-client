@@ -1,5 +1,7 @@
-module.exports = {
-  main: async function($) {
-    return $.params.data || { status: 'OK' }
+module.exports = async function($) {
+  console.log($.params)
+  if (Object.keys($.params).length > 0) {
+    return $.params
   }
+  return { status: 'OK' }
 }
