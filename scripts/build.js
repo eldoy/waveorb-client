@@ -5,12 +5,10 @@ const beautify = require('js-beautify').js
 const fspath = require('path')
 const client = require('../index.js')
 const http = require(fspath.join(process.cwd(), 'node_modules', 'taarn', 'browser.js'))
-const socket = require(fspath.join(process.cwd(), 'node_modules', 'wsrecon', 'index.js'))
 
 const name = 'waveorb'
 
 let code = `(function() {
-  var socket = ${socket};
   var http = ${http};
   window.${name} = ${client}
 }())`
